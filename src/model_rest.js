@@ -1,5 +1,5 @@
 Model.REST = function(klass, resource, methods) {
-	var PARAM_NAME_MATCHER = /:([\w\d]+)/g;
+	var PARAM_NAME_MATCHER = /:([\w]+)/g;
   var resource_param_names = (function() {
     var resource_param_names = []
     var param_name
@@ -15,7 +15,7 @@ Model.REST = function(klass, resource, methods) {
 		path: function(model) {
       var path = resource;
       jQuery.each(resource_param_names, function(i, param) {
-				path = path.replace(":" + param, model.attributes[param]);
+        path = path.replace(":" + param, model.attributes[param] || (model[param] && model[param]()) || (":" + param));
 			});
 			return path;
 		},
